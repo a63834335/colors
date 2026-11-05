@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block title %}Вход{% endblock %}
+{% block content %}
+<div class="auth">
+  <h2>Вход</h2>
+  <form action="#" method="post">
+    <label>Имя пользователя<input name="username"></label>
+    <label>Пароль<input type="password" name="password"></label>
+    <button class="btn primary" type="submit">Войти</button>
+  </form>
+  <p class="stub-note">Логика входа появится на дне 3. <a href="{{ url_for('register') }}">Регистрация</a></p>
+</div>
+{% endblock %}
