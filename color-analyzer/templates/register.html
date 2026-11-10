@@ -3,11 +3,11 @@
 {% block content %}
 <div class="auth">
   <h2>Регистрация</h2>
-  <form action="#" method="post">
-    <label>Имя пользователя<input name="username"></label>
-    <label>Пароль<input type="password" name="password"></label>
+  <form method="post" action="{{ url_for('register') }}">
+    <label>Имя пользователя (3–20 символов)<input name="username" required></label>
+    <label>Пароль (минимум 4 символа)<input type="password" name="password" required></label>
     <button class="btn primary" type="submit">Создать аккаунт</button>
   </form>
-  <p class="stub-note">Логика регистрации появится на дне 3. <a href="{{ url_for('login') }}">Вход</a></p>
+  <div class="alt">Уже есть аккаунт? <a href="{{ url_for('login') }}">Войти</a></div>
 </div>
 {% endblock %}

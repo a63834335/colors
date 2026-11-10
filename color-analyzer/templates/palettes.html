@@ -2,12 +2,13 @@
 {% block title %}Мои палитры{% endblock %}
 {% block content %}
 <div class="userbar">
-  <div class="avatar"></div>
-  <span class="name">аккаунт</span>
+  <div class="avatar">{{ session['username'][0].upper() }}</div>
+  <span class="name">{{ session['username'] }}</span>
   <a class="btn" href="{{ url_for('index') }}">Анализ фото</a>
+  <form method="post" action="{{ url_for('logout') }}" style="margin:0">
+    <button class="btn" type="submit">Выйти</button>
+  </form>
 </div>
-<div class="panel" style="margin:0 40px">
-  <h2>Мои палитры</h2>
-  <p class="stub-note">Раздел будет реализован на днях 3–4 (сейчас только интерфейс).</p>
-</div>
+<p class="empty">
+Сейчас результат анализа показывается на главной странице.</p>
 {% endblock %}

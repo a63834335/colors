@@ -1,41 +1,55 @@
 {% extends 'base.html' %}
 {% block content %}
 <div class="userbar">
-  <div class="avatar"></div>            <!-- аккаунт (заглушка) -->
-  <span class="name">аккаунт</span>
+  <div class="avatar">{{ session['username'][0].upper() }}</div>
+  <span class="name">{{ session['username'] }}</span>
   <a class="btn" href="{{ url_for('palettes') }}">Мои палитры</a>
+  <form method="post" action="{{ url_for('logout') }}" style="margin:0">
+    <button class="btn" type="submit">Выйти</button>
+  </form>
 </div>
 
-<!-- ДЕНЬ 2: форма-заглушка, action="#" — страница просто перезагрузится, ничего не сломается -->
-<form class="layout" action="#" method="post" enctype="multipart/form-data">
-  <div class="dropzone">
-    <div>Загрузите сюда ваше фото</div>
-    <input type="file" name="photo" id="photo" accept="image/*">
-    <span id="fname" style="font-size:13px"></span>
-  </div>
-
-  <div class="mid">
-    <label for="colors_count">Введите количество цветов:</label>
-    <input type="number" id="colors_count" name="colors_count" min="1" max="16" value="5">
-    <button class="btn primary" type="submit">Получить палитру</button>
-  </div>
+<div class="layout">
+  <form method="post" action="{{ url_for('analyze') }}" enctype="multipart/form-data" style="display:contents">
+    <div class="dropzone">
+      {% if pending %}
+        <img src="{{ url_for('uploads', name=pending.file) }}" alt="Загруженное фото">
+        <div>Чтобы заменить фото — выберите новый файл</div>
+      {% else %}
+        <div>Загрузите сюда ваше фото</div>
+      {% endif %}
+      <input type="file" name="photo" id="photo" accept="image/*">
+      <span id="fname" style="font-size:13px"></span>
+    </div>
+    <div class="mid">
+      <label for="colors_count">Введите количество цветов:</label>
+      <input type="number" id="colors_count" name="colors_count" min="1" max="16" value="5" required>
+      <button class="btn primary" type="submit">Получить палитру</button>
+    </div>
+  </form>
 
   <div>
-    <div class="panel">
-      <h2>Палитра цветов</h2>
-      <!-- заглушки строк палитры, как в эскизе -->
-      <div class="pal-item"><span class="swatch"></span><div class="info">название цвета<br>HEX-код цвета</div></div>
-      <div class="pal-item"><span class="swatch"></span><div class="info">название цвета<br>HEX-код цвета</div></div>
-      <div class="pal-item"><span class="swatch"></span><div class="info">название цвета<br>HEX-код цвета</div></div>
-    </div>
-    <div class="save-form">
-      <button class="btn primary" type="button">Сохранить палитру</button>
-    </div>
+    {% if pending %}
+      <div class="panel">
+        <h2>Палитра цветов</h2>
+        {% for c in pending.colors %}
+        <div class="pal-item">
+          <span class="swatch" style="background:{{ c.hex }}"></span>
+          <div class="info">{{ c.name }}<br><span class="hex">{{ c.hex }}</span> · {{ c.percent }}%</div>
+        </div>
+        {% endfor %}
+      </div>
+      <p style="font-size:13px;color:#666"></p>
+    {% else %}
+      <div class="panel">
+        <h2>Палитра цветов</h2>
+        <p style="text-align:center;color:#555;font-size:14px">Палитра появится здесь после анализа фото</p>
+      </div>
+    {% endif %}
   </div>
-</form>
+</div>
 
 <script>
-// единственная живая деталь прототипа: показывает имя выбранного файла
 const fi = document.getElementById('photo');
 if (fi) fi.addEventListener('change', () => {
   document.getElementById('fname').textContent = fi.files[0] ? fi.files[0].name : '';
