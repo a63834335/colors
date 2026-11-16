@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block title %}Регистрация{% endblock %}
+{% block content %}
+<div class="auth">
+  <h2>Регистрация</h2>
+  <form method="post" action="{{ url_for('register') }}">
+    <label>Имя пользователя (3–20 символов)<input name="username" required></label>
+    <label>Пароль (минимум 4 символа)<input type="password" name="password" required></label>
+    <button class="btn primary" type="submit">Создать аккаунт</button>
+  </form>
+  <div class="alt">Уже есть аккаунт? <a href="{{ url_for('login') }}">Войти</a></div>
+</div>
+{% endblock %}

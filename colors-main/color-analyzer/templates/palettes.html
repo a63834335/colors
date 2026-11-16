@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block title %}Мои палитры{% endblock %}
+{% block content %}
+<div class="userbar">
+  <div class="avatar">{{ session['username'][0].upper() }}</div>
+  <span class="name">{{ session['username'] }}</span>
+  <a class="btn" href="{{ url_for('index') }}">Анализ фото</a>
+  <form method="post" action="{{ url_for('logout') }}" style="margin:0">
+    <button class="btn" type="submit">Выйти</button>
+  </form>
+</div>
+
+{% if items %}
+<div class="cards">
+  {% for item in items %}
+  <div class="card">
+    <img src="{{ url_for('uploads', name=item.image_file) }}" alt="{{ item.title }}">
+    <div class="body">
+      <h3>{{ item.title }}</h3>
+      <span class="date">{{ item.created }}</span>
+      <div class="swrow">
+        {% for c in item.colors %}
+        <span class="chip" title="{{ c.name }} ({{ c.percent }}%)"><i style="background:{{ c.hex }}"></i>{{ c.hex }}</span>
+        {% endfor %}
+      </div>
+      <div class="actions">
+        <a class="btn" href="{{ url_for('export', pid=item.id, fmt='txt') }}">Экспорт .txt</a>
+        <a class="btn" href="{{ url_for('export', pid=item.id, fmt='png') }}">Экспорт .png</a>
+        <form method="post" action="{{ url_for('delete', pid=item.id) }}"
+              onsubmit="return confirm('Удалить палитру?');" style="margin:0">
+          <button class="btn danger" type="submit">Удалить</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% else %}
+<p class="empty">Сохранённых палитр пока нет. Проанализируйте фото на главной странице и нажмите «Сохранить палитру».</p>
+{% endif %}
+{% endblock %}

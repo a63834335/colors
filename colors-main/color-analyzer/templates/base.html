@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>{% block title %}Палитра цветов по фотографии{% endblock %}</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:'Segoe UI',system-ui,sans-serif;background:#f7f9fb;color:#222}
+.topbar{background:#d9d9d9;padding:26px 20px;text-align:center}
+.topbar h1{margin:0;font-size:22px;font-weight:600}
+.flashes{padding:10px 40px 0}
+.flash{padding:10px 14px;border-radius:6px;margin-bottom:8px;font-size:14px}
+.flash.error{background:#fdecea;color:#b71c1c}
+.flash.success{background:#e8f5e9;color:#1b5e20}
+.userbar{display:flex;align-items:center;gap:14px;padding:18px 40px}
+.avatar{width:46px;height:46px;border-radius:50%;background:#d9d9d9;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:18px}
+.userbar .name{margin-right:auto;font-size:14px;color:#555}
+.btn{display:inline-block;background:#d9d9d9;border:none;border-radius:6px;padding:10px 16px;font-size:14px;color:#222;cursor:pointer;text-decoration:none}
+.btn:hover{background:#c8c8c8}
+.btn.primary{background:#4a76a8;color:#fff}
+.btn.primary:hover{background:#3d6390}
+.btn.danger{background:#e57373;color:#fff}
+.layout{display:grid;grid-template-columns:1fr 240px 1fr;gap:32px;padding:0 40px 48px;align-items:start}
+.dropzone{background:#d9d9d9;border-radius:4px;min-height:360px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:18px;text-align:center}
+.dropzone img{max-width:100%;max-height:280px;border-radius:4px}
+.dropzone input[type=file]{font-size:13px;max-width:100%}
+.mid{padding-top:6px}
+.mid label{display:block;margin-bottom:8px;font-size:16px}
+.mid input[type=number]{width:100%;padding:10px;border:1px solid #bbb;border-radius:4px;font-size:15px;margin-bottom:14px}
+.panel{background:#d9d9d9;border-radius:4px;padding:18px}
+.panel h2{margin:0 0 14px;font-size:18px;text-align:center;font-weight:600}
+.pal-item{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.swatch{width:36px;height:36px;border-radius:50%;flex:none;border:1px solid rgba(0,0,0,.15)}
+.pal-item .info{font-size:14px;line-height:1.45}
+.pal-item .hex{color:#444;font-family:Consolas,monospace}
+.save-form{margin-top:16px;display:flex;flex-direction:column;gap:10px}
+.save-form input{padding:10px;border:1px solid #bbb;border-radius:4px;font-size:14px}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:24px;padding:0 40px 48px}
+.card{background:#fff;border:1px solid #e3e6ea;border-radius:8px;overflow:hidden;display:flex;flex-direction:column}
+.card img{width:100%;height:160px;object-fit:cover;display:block}
+.card .body{padding:14px;display:flex;flex-direction:column;gap:10px;flex:1}
+.card h3{margin:0;font-size:16px}
+.card .date{color:#888;font-size:12px}
+.swrow{display:flex;flex-wrap:wrap;gap:6px}
+.chip{display:flex;align-items:center;gap:6px;background:#f1f3f5;border-radius:12px;padding:3px 9px 3px 4px;font-size:12px;font-family:Consolas,monospace}
+.chip i{width:16px;height:16px;border-radius:50%;display:inline-block}
+.card .actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:auto}
+.auth{max-width:360px;margin:60px auto;background:#fff;border:1px solid #e3e6ea;border-radius:8px;padding:26px}
+.auth h2{margin-top:0}
+.auth label{display:block;margin:12px 0 6px;font-size:14px}
+.auth input{width:100%;padding:10px;border:1px solid #bbb;border-radius:4px;font-size:14px}
+.auth .btn{margin-top:16px;width:100%}
+.auth .alt{margin-top:12px;font-size:13px;text-align:center}
+.empty{padding:0 40px;color:#666}
+</style>
+</head>
+<body>
+<header class="topbar"><h1>Палитра цветов по фотографии</h1></header>
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+  <div class="flashes">
+    {% for cat, msg in messages %}<div class="flash {{ cat }}">{{ msg }}</div>{% endfor %}
+  </div>
+  {% endif %}
+{% endwith %}
+<main>{% block content %}{% endblock %}</main>
+</body>
+</html>
